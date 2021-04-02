@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE configuration
+        PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-config.dtd">
+
+<configuration>
+
+    <properties resource="jdbcConfig.properties"/>
+
+
+    <settings>
+        <setting name="lazyLoadingEnabled" value="false" />
+        <setting name="logImpl" value="LOG4J" />
+        <setting name="lazyLoadingEnabled" value="true"/>
+        <setting name="mapUnderscoreToCamelCase" value="true"/>
+<!--        <setting name="aggressiveLazyLoading" value="false"/>-->
+    </settings>
+
+
+<!--    使用typeAliases配置别名，只能配置domain的类别名-->
+    <typeAliases>
+<!--        type：指定实体类全限定名    alias：指定别名，不区分大小写-->
+<!--        <typeAlias type="init.yfk.study.frame.mybatis.domain.User" alias="User"/>-->
+<!--        指定配置别名的包，该包名下实体类都注册别名，类名就是别名，不区分大小写-->
+        <package name="init.yfk.study.frame.mybatis.domain" />
+    </typeAliases>
+
+
+
+
+    <environments default="mysql">
+        <!-- Mysql环境配置 -->
+        <environment id="mysql">
+            <!--配置事务类型-->
+            <transactionManager type="JDBC"></transactionManager>
+            <!--配置连接池，数据源-->
+
+            <dataSource  type="graduation.util.DruidDataSourceFactory">
+                <!--1. 标签配置 配置连接池的四个基本信息-->
+<!--                <property name="driver" value="com.mysql.cj.jdbc.Driver"/>-->
+<!--                <property name="url" value="jdbc:mysql://localhost:3306/mybatis?useSSL=false&amp;serverTimezone=UTC"/>-->
+<!--                <property name="username" value="root"/>-->
+<!--                <property name="password" value="123456"/>-->
+                <property name="driver" value="${jdbc.driver}"/>
+                <property name="url" value="${jdbc.url}"/>
+                <property name="username" value="${jdbc.username}"/>
+                <property name="password" value="${jdbc.password}"/>
+
+                <property name="initialSize" value="${druid.initialSize}"/>
+                <property name="minIdle" value="${druid.minIdle}"/>
+                <property name="maxActive" value="${druid.maxActive}"/>
+                <!-- 配置获取连接等待超时的时间 -->
+                <property name="maxWait" value="${druid.maxWait}"/>
+                <!-- 配置间隔多久才进行一次检测，检测需要关闭的空闲连接，单位是毫秒 -->
+                <property name="timeBetweenEvictionRunsMillis" value="${druid.timeBetweenEvictionRunsMillis}" />
+                <!-- 配置一个连接在池中最小生存的时间，单位是毫秒 -->
+<!--                <property name="minEvictableIdleTimeMillis" value="${druid.minEvictableIdleTimeMillis}" />-->
+<!--                <property name="validationQuery" value="${druid.validationQuery}" />-->
+<!--                <property name="testWhileIdle" value="${druid.testWhileIdle}" />-->
+<!--                <property name="testOnBorrow" value="${druid.testOnBorrow}" />-->
+<!--                <property name="testOnReturn" value="${druid.testOnReturn}" />-->
+                <!-- 打开PSCache，并且指定每个连接上PSCache的大小  如果用Oracle，则把poolPreparedStatements配置为true，mysql可以配置为false。-->
+<!--                <property name="poolPreparedStatements" value="${druid.poolPreparedStatements}" />-->
+<!--                <property name="maxPoolPreparedStatementPerConnectionSize" value="${druid.maxPoolPreparedStatementPerConnectionSize}" />-->
+                <!-- 配置监控统计拦截的filters -->
+<!--                <property name="filters" value="${druid.filters}" />-->
+            </dataSource>
+        </environment>
+    </environments>
+
+    <!--指定映射配置文件的位置，映射配置文件指的是每个dao独立的配置文件-->
+    <mappers>
+<!--        <mapper resource="init/yfk/study/frame/mybatis/dao/IUserDao.xml" />-->
+<!--        packet指定dao接口所在的包，不需要再写 mapper  resource（xml）/class（注解）了-->
+        <package name="graduation.dao"/>
+    </mappers>
+
+</configuration>

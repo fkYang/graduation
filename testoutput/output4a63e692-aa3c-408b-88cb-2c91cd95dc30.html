@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en-US">
+<head>
+    <meta charset="UTF-8">
+    <title>Champagne prices by vintage</title>
+    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+</head>
+<body>
+    <div id='target' ></div>
+        <script>
+        var target_target = document.getElementById('target');
+        var layout = {
+    title: 'Champagne prices by vintage',
+    height: 600,
+    width: 800,
+    xaxis: {
+    title: 'num',
+    },
+
+    yaxis: {
+    title: 'times',
+    },
+
+};
+
+var trace0 =
+{
+x: ["1","2","0"],
+y: ["12","50","60"],
+mode: 'markers',
+xaxis: 'x',
+yaxis: 'y',
+type: 'scatter',
+name: '',
+};
+
+        var data = [ trace0];
+Plotly.newPlot(target_target, data, layout);            </script>
+
+</body>
+</html>

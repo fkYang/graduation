@@ -1,0 +1,35 @@
+thread num :1
+2021-02-19 11:58:55 [main] [com.alibaba.druid.pool.DruidDataSource] [INFO] - {dataSource-1} inited
+count:302 
+thread num :1
+thread  :Thread[main,5,main]MYSQL£ºgraduation.util.MySQL@2f67a4d3 MYSQL session £ºjava.lang.ThreadLocal@5e3f861thread num :17
+thread num :19
+thread num :21
+thread num :25
+thread num :35
+thread num :23
+thread num :33
+thread num :31
+thread num :27
+thread num :29
+count:302 
+thread num :31
+thread  :Thread[pool-1-thread-8,5,main]MYSQL£ºgraduation.util.MySQL@714ca1f3 MYSQL session £ºjava.lang.ThreadLocal@75733b02count:302 
+thread num :33
+thread  :Thread[pool-1-thread-9,5,main]MYSQL£ºgraduation.util.MySQL@7e079b6d MYSQL session £ºjava.lang.ThreadLocal@7a381075count:302 
+thread num :29
+thread  :Thread[pool-1-thread-7,5,main]MYSQL£ºgraduation.util.MySQL@6c6de08c MYSQL session £ºjava.lang.ThreadLocal@685279d9count:302 
+thread num :17
+thread  :Thread[pool-1-thread-1,5,main]MYSQL£ºgraduation.util.MySQL@791b720f MYSQL session £ºjava.lang.ThreadLocal@7d24f9f4count:302 
+thread num :27
+thread  :Thread[pool-1-thread-6,5,main]MYSQL£ºgraduation.util.MySQL@23c39a45 MYSQL session £ºjava.lang.ThreadLocal@27fc1ae5count:302 
+thread num :21
+thread  :Thread[pool-1-thread-3,5,main]MYSQL£ºgraduation.util.MySQL@752d1a3e MYSQL session £ºjava.lang.ThreadLocal@71129043count:302 
+thread num :19
+thread  :Thread[pool-1-thread-2,5,main]MYSQL£ºgraduation.util.MySQL@5a01817 MYSQL session £ºjava.lang.ThreadLocal@19f8c7bcount:302 
+thread num :35
+thread  :Thread[pool-1-thread-10,5,main]MYSQL£ºgraduation.util.MySQL@7dbb7861 MYSQL session £ºjava.lang.ThreadLocal@7984e30ecount:302 
+thread num :25
+thread  :Thread[pool-1-thread-5,5,main]MYSQL£ºgraduation.util.MySQL@8e926a MYSQL session £ºjava.lang.ThreadLocal@4b106a3count:302 
+thread num :23
+thread  :Thread[pool-1-thread-4,5,main]MYSQL£ºgraduation.util.MySQL@a22f750 MYSQL session £ºjava.lang.ThreadLocal@e1d72cc
