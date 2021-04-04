@@ -94,9 +94,20 @@ public class FileUtil {
         return dto;
     }
 
+    public static void writeMethodTimesObject(MethodDto dto) {
+        String path = String.format("methodDto%d.txt", dto.getTimes());
+        writeMethodObject(dto, path);
+    }
+
+    //"methodDto.txt"
     public static void writeMethodObject(MethodDto dto) {
+        writeMethodObject(dto, "methodDto.txt");
+        writeMethodTimesObject(dto);
+    }
+
+    public static void writeMethodObject(MethodDto dto, String path) {
         try {
-            FileOutputStream f = new FileOutputStream(new File("methodDto.txt"));
+            FileOutputStream f = new FileOutputStream(new File(path));
             ObjectOutputStream o = new ObjectOutputStream(f);
 
             // Write objects to file
@@ -111,10 +122,15 @@ public class FileUtil {
         }
     }
 
+
     public static MethodDto readMethodDtoObject() {
+        return readMethodDtoObject("methodDto.txt");
+    }
+
+    public static MethodDto readMethodDtoObject(String path) {
         MethodDto dto = new MethodDto();
         try {
-            FileInputStream fi = new FileInputStream(new File("methodDto.txt"));
+            FileInputStream fi = new FileInputStream(new File(path));
             ObjectInputStream oi = new ObjectInputStream(fi);
 
             // Read objects

@@ -2,6 +2,7 @@ package graduation;
 
 import graduation.dao.IFollowersDao;
 import graduation.entity.Followers;
+import graduation.method.HITS;
 import graduation.service.Figure;
 import graduation.service.GitApi;
 import graduation.service.GitHubUserService;
@@ -23,6 +24,8 @@ import java.util.concurrent.CountDownLatch;
 public class Main {
     public static CountDownLatch latch= new CountDownLatch(1);
     public static void main(String[] args) throws InterruptedException {
+        // hits计算
+        HITS.hits();
        // LogUtil.info("test");
         // followers
      //  GitHubUserService.initPrepareParameter();
@@ -43,7 +46,8 @@ public class Main {
 //        System.exit(0);
 
 
-        Figure.drawPrepare();
+        // 数据整理存储
+      //  Figure.drawPrepare();
 
 //        ExecutorService executorPool = ExecutorUtils.getExecutorPool();
 //

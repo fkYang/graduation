@@ -34,8 +34,14 @@ import java.util.function.IntFunction;
 public class MethodDto implements Serializable {
 
     // 初始化数据的内容
-    int initId = 0;
-    boolean initEnd = false;
+    int initDTOId = 0;
+    boolean initDTOEnd = false;
+
+    // 0 init other caculate
+    int times = 0;
+
+//    int initHITSId = 0;
+//    boolean initHITSEnd = false;
     // 等全部弄完以后进行设置
     int iteratorIndex = 0;
     List<Integer> userList ;
