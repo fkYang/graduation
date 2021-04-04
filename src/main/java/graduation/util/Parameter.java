@@ -21,4 +21,9 @@ public class Parameter {
     public  static double projectRatioIssue = 1;
     public  static double projectRatioRequest = 1;
 
+    // 计算的最终参数
+    public static int userSize =   782825 +100;
+    public static int projectSize =   1273604 +100 ;
+
+
 }

@@ -57,6 +57,7 @@ public class PrepareDto {
             // 减少数据库查询次数
             initMethodDtoProject(ids);
             //init hub auth
+
             dto.setInitDTOId(id);
             LogUtil.info(String.format("times:%d ,user:%d ", times, id));
             times++;
@@ -66,6 +67,14 @@ public class PrepareDto {
             }
         }
     }
+
+    void deleteUselessData(Integer[] ids){
+        CaculateHITS hits = new CaculateHITS(dto);
+        for(Integer id:ids){
+            hits.initHitsById(id);
+        }
+    }
+
 
     void initMethodDtoProject(Integer[] ids) {
         IProjectDao projectDao = mySQL.getMapper(IProjectDao.class);

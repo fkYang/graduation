@@ -11,6 +11,7 @@ import com.koloboke.function.IntObjConsumer;
 import com.koloboke.function.IntObjFunction;
 import com.koloboke.function.IntObjPredicate;
 import com.sun.javafx.fxml.builder.ProxyBuilder;
+import graduation.util.Parameter;
 import lombok.Data;
 
 import javax.annotation.Nonnull;
@@ -40,43 +41,47 @@ public class MethodDto implements Serializable {
     // 0 init other caculate
     int times = 0;
 
-//    int initHITSId = 0;
+    //    int initHITSId = 0;
 //    boolean initHITSEnd = false;
     // 等全部弄完以后进行设置
     int iteratorIndex = 0;
-    List<Integer> userList ;
+    List<Integer> userList;
 
     // static
     // user和follower
     Map<Integer, List<Integer>> userFollowerMap;
     Map<Integer, List<Integer>> userProjectMap;
     // project 和 issue等
-    Map<Integer,ProjectMap> projectMap;
+    Map<Integer, ProjectMap> projectMap;
+
     {
-        userFollowerMap = new LinkedHashMap<>();
-        userProjectMap = new LinkedHashMap<>();
-        projectMap = new LinkedHashMap<>();
+        userFollowerMap = new LinkedHashMap<>(Parameter.userSize);
+        userProjectMap = new LinkedHashMap<>(Parameter.userSize);
+        projectMap = new LinkedHashMap<>(Parameter.projectSize);
     }
 
     // iterator
-    Map<Integer,HitsValue> userHub;
-    Map<Integer,HitsValue> projectAuth;
+    Map<Integer, HitsValue> userHub;
+    Map<Integer, HitsValue> projectAuth;
+
     {
-        userHub = new LinkedHashMap<>();
-        projectAuth = new LinkedHashMap<>();
+        userHub = new LinkedHashMap<>(Parameter.userSize);
+        projectAuth = new LinkedHashMap<>(Parameter.projectSize);
     }
+
     @Data
-    public static class HitsValue{
+    public static class HitsValue implements Serializable {
         double value;
         double temp;
-        public HitsValue(double value){
+
+        public HitsValue(double value) {
             // 先temp，后归一化
             this.temp = value;
         }
     }
 
     @Data
-    public static class ProjectMap{
+    public static class ProjectMap implements Serializable {
         List<Integer> watchers;
         List<Integer> issues;
         List<Integer> requests;
