@@ -29,9 +29,10 @@ public class PrepareDto {
         if (!dto.isInitDTOEnd()) {
             initMethodDto();
             // init
-            dto.setUserList(new ArrayList<>(dto.getUserHub().keySet()));
             dto.setInitDTOEnd(true);
+            dto.setUserList(new ArrayList<>(dto.getUserFollowerMap().keySet()));
             FileUtil.writeMethodObject(dto);
+
             LogUtil.info(String.format("initDto end"));
         }
     }
@@ -57,13 +58,13 @@ public class PrepareDto {
             // 减少数据库查询次数
             initMethodDtoProject(ids);
             //init hub auth
-
+            deleteUselessData(ids);
             dto.setInitDTOId(id);
             LogUtil.info(String.format("times:%d ,user:%d ", times, id));
             times++;
-            if (times % 100 == 0) {
+            if (times % 6000 == 0) {
                 FileUtil.writeMethodObject(dto);
-                return;
+                //return;
             }
         }
     }

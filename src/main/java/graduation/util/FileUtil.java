@@ -127,7 +127,7 @@ public class FileUtil {
         return readMethodDtoObject("methodDto.txt");
     }
 
-    public static MethodDto readMethodDtoObject(String path) {
+    private static MethodDto readMethodDtoObject(String path) {
         MethodDto dto = new MethodDto();
         try {
             FileInputStream fi = new FileInputStream(new File(path));
