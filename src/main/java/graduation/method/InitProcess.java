@@ -39,8 +39,8 @@ public class InitProcess  implements Runnable {
             List<Followers> followers = followersDao.findFollowersByUserId(user.getId());
             List<Integer> followerList = new ArrayList<>(followers.size());
             for(Followers follower:followers){
-                if (follower.getFollowerId() != null){
-                    followerList.add(follower.getFollowerId());
+                if (follower.getUserId() != null && !follower.getUserId().equals(user.getId())){
+                    followerList.add(follower.getUserId());
                 }
             }
             // 移除自身
@@ -48,13 +48,15 @@ public class InitProcess  implements Runnable {
             user.setFollowers(TransUtil.List2String(followerList));
 
 
-            List<Project> projects = projectDao.findByOwnerId(user.getId());
-            for (Project project : projects) {
-                projectsProcess(project);
-            }
+//            List<Project> projects = projectDao.findByOwnerId(user.getId());
+//            for (Project project : projects) {
+//                projectsProcess(project);
+//            }
             userDao.updateUserInit(user);
             mySQL.getSession().get().commit();
-            System.out.println( user.getId()+" follower  size : " +  followerList.size() + "   projects size: " + projects.size());
+            //System.out.println( user.getId()+" follower  size : " +  followerList.size() + "   projects size: " + projects.size());
+            System.out.println( user.getId()+" follower  size : " +  followerList.size() );
+
 
             //printList(user.getId() + " - follower " ,followerList);
         } catch (Exception e){

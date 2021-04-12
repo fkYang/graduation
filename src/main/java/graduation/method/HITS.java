@@ -21,14 +21,14 @@ import java.util.Set;
  */
 public class HITS {
     // user,staticc参数，方法名称
-    static final MySQL mySQL = new MySQL();
+    //static final MySQL mySQL = new MySQL();
     public static MethodDto dto = FileUtil.readMethodDtoObject();
 
     static public void hits() {
         PrepareDto prepare = new PrepareDto(dto);
         prepare.initHITSSDTO();
-//        CaculateHITS hits = new CaculateHITS(dto);
-//        hits.Hits();
+        CaculateHITS hits = new CaculateHITS(dto);
+        hits.Hits();
 
 //        initHITSSDTO();
 //        initHits();
