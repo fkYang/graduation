@@ -7,7 +7,12 @@ import graduation.entity.GitHubUser;
 import graduation.entity.Project;
 import graduation.util.*;
 
+import java.io.IOException;
 import java.util.List;
+
+import static graduation.util.FileUtil.IteratorTrend;
+import static graduation.util.FileUtil.readCsvAndDrawHITS;
+
 /**
  * 类描述
  *
@@ -77,4 +82,13 @@ public class Figure {
     // 遍历数据，初始化数值，
     // 清除数据，hub为0的数据-project auth
 
+    // hits结束后，绘制图片用于分析
+    public static void hitsFigure() {
+        //readCsvAndDrawHITS();
+        try {
+            IteratorTrend();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 }

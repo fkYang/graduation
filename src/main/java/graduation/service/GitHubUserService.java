@@ -1,20 +1,16 @@
 package graduation.service;
 
 import graduation.Main;
-import graduation.dao.IProjectDao;
 import graduation.dao.IUserDao;
 import graduation.entity.GitHubUser;
-import graduation.entity.Project;
 import graduation.method.InitProcess;
 import graduation.util.ExecutorUtils;
 import graduation.util.LogUtil;
 import graduation.util.MySQL;
 import graduation.util.Parameter;
 
-import javax.xml.stream.events.EndDocument;
 import java.util.List;
 import java.util.concurrent.ExecutorService;
-import java.util.logging.Logger;
 
 /**
  * 类描述

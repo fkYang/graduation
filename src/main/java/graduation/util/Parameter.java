@@ -1,5 +1,7 @@
 package graduation.util;
 
+import org.jcp.xml.dsig.internal.dom.DOMUtils;
+
 /**
  * 类描述
  *
@@ -9,21 +11,28 @@ package graduation.util;
 public class Parameter {
     public static final int batch = 30;
     public static final int star = 780000;
-    public static final int init = 9524030;
+    public static final int init = 0;
     public static int times = 0;
     public static double hubSum = 0;
     public static double authSum = 0;
 
     // 计算的参数
-    public  static double userRatioWatcher = 1;
-    public  static double userRatioFollower = 1;
+    public static double userRatioWatcher = 0.125;
+    public static double userRatioFollower = 0.875;
 
-    public  static double projectRatioIssue = 1;
-    public  static double projectRatioRequest = 1;
+    public static double projectRatioIssue = 1;
+    public static double projectRatioRequest = 1;
 
     // 计算的最终参数
-    public static int userSize =   782825 +100;
-    public static int projectSize =   1273604 +100 ;
+    public static int userSize = 782825 + 100;
+    public static int projectSize = 1273604 + 100;
 
+    //
+    public static String HITSId = "hitsId";
+    public static String HITSValue = "hitsValue";
+
+    public static int iteratorTimes = 10;
+
+    public static double minHitsThresholdValue = 0.01;
 
 }

@@ -25,10 +25,14 @@ public class Main {
     public static CountDownLatch latch= new CountDownLatch(1);
     public static void main(String[] args) throws InterruptedException {
         // hits计算
-        HITS.hits();
-       // LogUtil.info("test");
+        //HITS.hits();
+
+        // 绘制图片
+        //Figure.hitsFigure();
+
+
         // followers
-     //  GitHubUserService.initPrepareParameter();
+       GitHubUserService.initPrepareParameter();
         //new Thread(GitHubUserService::initPrepareParameter).start();
 //        for( int i = 1 ; i < 30 ; i++){
 //            ProjectsService.fillStar(i* Parameter.star);
@@ -48,42 +52,5 @@ public class Main {
 
         // 数据整理存储
       //  Figure.drawPrepare();
-
-//        ExecutorService executorPool = ExecutorUtils.getExecutorPool();
-//
-//        temp();
-//        for (int i = 0; i < 10; i++) {
-//            executorPool.execute(new tempThread());
-//        }
-//        Thread.sleep(10000);
-//        executorPool.shutdown();
-    }
-    static class tempThread extends Thread {
-        @Override
-        public void run() {
-            temp();
-            super.run();
-        }
-    }
-    public static void temp() {
-        System.out.printf("thread num :%d\n", Thread.currentThread().getId());
-
-        IFollowersDao followersDao;
-        MySQL mySQL = new MySQL();
-        followersDao = mySQL.getMapper(IFollowersDao.class);
-        //   followersDao = session.getMapper(IFollowersDao.class);   //代理模式
-
-        //5. 使用代理对象执行方法
-        List<Followers> users = followersDao.findByFollowerId(2);
-//        for( Followers user : users){
-//            System.out.println(user);
-//        }
-        System.out.println(users.get(0));
-        System.out.printf("count:%d \n", users.size());
-        System.out.printf("thread num :%d\n", Thread.currentThread().getId());
-        System.out.printf("thread  :%s", Thread.currentThread());
-        System.out.printf("MYSQL：%s ", mySQL);
-        System.out.printf("MYSQL session ：%s", mySQL.getSession());
-        mySQL.getSession().get().close();
     }
 }
