@@ -2,6 +2,7 @@ import com.mysql.cj.protocol.a.result.ResultsetRowsStatic;
 import graduation.dto.MethodDto;
 import graduation.dto.PrepareFigureDto;
 import graduation.util.FileUtil;
+import org.junit.Test;
 import sun.awt.SunHints;
 
 import java.io.*;
@@ -14,25 +15,46 @@ import java.util.*;
  * @date 2021/3/29
  */
 public class WriteTest {
+    @Test
+    public void testUserFollower() throws IOException {
+        MethodDto dto = FileUtil.readMethodDtoObject("D:\\31577\\桌面\\毕设\\data\\temp\\methodDto0.txt");
+        String path = "D:\\31577\\桌面\\毕设\\data\\temp\\userfollower.csv";
+        FileUtil.writeUserFollow(dto,path);
+
+
+    }
 
     public static void main(String[] args) throws Exception {
 //        List<String> list = new ArrayList<>();
 //        list.add("12,12");
 //        list.add("2,12");
 
-        testOB();
-        String path = "data.csv";
-////        writeFileContext(list,path);
-        Map<Integer,Integer> map = new LinkedHashMap<>();
-        map.put(1,12);
-        map.put(2,500);
-        map.put(0,60);
-        FileUtil.writeMap(map,path);
+//        testOB();
+//        String path = "data.csv";
+//////        writeFileContext(list,path);
+//        Map<Integer,Integer> map = new LinkedHashMap<>();
+//        map.put(1,12);
+//        map.put(2,500);
+//        map.put(0,60);
+//        FileUtil.writeMap(map,path);
 //       // Visual.drawCsv(path);
-
-
-
-
+        MethodDto dto = new MethodDto();
+        String dir = String.format(".\\data\\%d\\", dto.getTimes());
+        String path = dir  +String.format("methodDto%d.txt", dto.getTimes());
+       // testData();
+System.out.println(dto.getTimes());
+    }
+    static void testData(){
+        MethodDto dto = new MethodDto();
+        String format = String.format(".\\data\\%d\\methodDto.txt", dto.getTimes());
+//        File foder = new File( String.format("..\\data\\%d\\", dto.getTimes()));
+//        if (!foder.exists()) {
+//            foder.mkdir();
+//        }
+//        String path= foder.getPath()+文件名.xxx;
+//        FileOutputStream fos = new FileOutputStream(new File(format));
+        FileUtil.createDir(String.format(".\\data\\%d\\", dto.getTimes()));
+        FileUtil.writeMethodObject(dto,format);
     }
 
     static void testOB(){

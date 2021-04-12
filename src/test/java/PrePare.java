@@ -1,26 +1,8 @@
-import com.mysql.cj.x.protobuf.MysqlxDatatypes;
-import graduation.dao.IUserDao;
-import graduation.entity.GitHubUser;
 import graduation.entity.Project;
-import graduation.method.InitProcess;
 import graduation.service.GitApi;
-import graduation.service.GitHubUserService;
-import graduation.service.ProjectsService;
-import graduation.util.LogUtil;
-import graduation.util.MySQL;
 import graduation.util.TransUtil;
-import org.apache.http.HttpResponse;
-import org.apache.http.client.methods.HttpGet;
-import org.apache.http.concurrent.FutureCallback;
-import org.apache.http.impl.nio.client.CloseableHttpAsyncClient;
-import org.apache.http.impl.nio.client.HttpAsyncClientBuilder;
-import org.apache.http.impl.nio.client.HttpAsyncClients;
-import org.apache.http.nio.client.HttpAsyncClient;
-import org.omg.PortableServer.IdAssignmentPolicy;
 
-import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -43,6 +25,7 @@ public class PrePare {
 
         System.out.println("程序运行时间：" + (endTime - startTime) + "ms");    //输出程序运行时间
     }
+
 
     // testHitsPrepareData
     static void test(){
