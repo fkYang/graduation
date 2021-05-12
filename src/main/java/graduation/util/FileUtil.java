@@ -2,7 +2,9 @@ package graduation.util;
 
 import graduation.dto.MethodDto;
 import graduation.dto.PrepareFigureDto;
+import graduation.entity.GitHubUser;
 import graduation.method.PrepareDto;
+import graduation.service.GitHubUserService;
 import javafx.scene.control.Tab;
 import tech.tablesaw.api.CategoricalColumn;
 import tech.tablesaw.api.Table;
@@ -38,7 +40,7 @@ public class FileUtil {
                 file.createNewFile();
             }
             writer = new BufferedWriter(new FileWriter(path));
-            writer.write("num,times\r\n");
+            writer.write("num,times,log10(num),log10(times)\r\n");
             Set<Integer> keySet = map.keySet();
             List<Integer> keys = new ArrayList<>(map.keySet());
             Collections.sort(keys, new Comparator<Integer>() {
@@ -51,7 +53,7 @@ public class FileUtil {
             //  int times = 0;
             for (int i = 0; i < keys.size(); i++) {
                 int key = keys.get(i);
-                String data = String.format("%d,%d\r\n", key, map.get(key));
+                String data = String.format("%d,%d,%.8f,%.8f\r\n", key, map.get(key), Math.log10(key), Math.log10(map.get(key)));
                 writer.write(data);
             }
         } catch (Exception e) {
@@ -318,28 +320,60 @@ public class FileUtil {
 
     static public void writeUserFollow(MethodDto dto, String path) {
         if (path == null) {
-            path = ".\\data\\userFollower.csv";
+            path = ".\\data\\userFollowDir";
+            FileUtil.createDir(".\\data\\userFollowDir\\");
         }
+        // Set<Integer> userSet = new HashSet<>(dto.getUserList());
         Map<Integer, List<Integer>> followerMap = dto.getUserFollowerMap();
         Map<Integer, MethodDto.HitsValue> userHub = dto.getUserHub();
-        Set<Integer> set = followerMap.keySet();
+        Set<Integer> userSet = new HashSet<>(dto.getUserHub().keySet());
+        Set<Integer> userSetCopy = new HashSet<>(dto.getUserHub().keySet());
 
-        BufferedWriter writer = null;
+        //double min = 0;0.0001
+        System.out.println("size: " + userSet.size());
+        double limit = 0.01;
+        for (Integer id : userSetCopy) {
+            if (userHub.get(id).getValue() <= limit) {
+                userSet.remove(id);
+                System.out.println(String.format("remove id:%d. value:%f", id, userHub.get(id).getValue()));
+            }
+        }
+        System.out.println("size: " + userSet.size());
+
+
+        //userSet.removeIf(id -> userHub.get(id).getValue() == 0);
+
+
+        BufferedWriter writer = null, userWriter = null;
         int index = 0;
         try {
-            File file = new File(path);
+            File file = new File(String.format(path + "\\userFollower%d.csv",userSet.size()));
             //如果没有文件就创建
             if (!file.isFile()) {
                 file.createNewFile();
             }
-            writer = new BufferedWriter(new FileWriter(path));
-            writer.write("id,userId,followerId,hubValue\r\n");
-            for (Integer userId : set) {
+            writer = new BufferedWriter(new FileWriter(String.format(path + "\\userFollower%d.csv",userSet.size())));
+            writer.write("id,Target,Source\r\n");
+//String.format(path + "\\usersHits%d.csv",userSet.size())
+            File userFile = new File(String.format(path + "\\usersHits%d.csv",userSet.size()));
+            if (!file.isFile()) {
+                userFile.createNewFile();
+            }
+            userWriter = new BufferedWriter(new FileWriter(String.format(path + "\\usersHits%d.csv",userSet.size())));
+            userWriter.write("id,hubValue,name\r\n");
+            for (Integer userId : userSet) {
                 List<Integer> followers = followerMap.get(userId);
+                GitHubUser user = GitHubUserService.getUser(userId);
+                String data = String.format("%d,%.20f,%s\r\n", userId, userHub.get(userId).getValue(), user.getName());
+       System.out.println(data);
+                userWriter.write(data);
                 for (Integer follower : followers) {
-                    index++;
-                    String data = String.format("%d,%d,%d,%s\r\n", index, userId, follower, 1 / followers.size());
-                    writer.write(data);
+                    if (userSet.contains(follower)) {
+                        // 保证边的两个端点在user中
+                        index++;
+                        data = String.format("%d,%d,%d\r\n", index, userId, follower);
+                        writer.write(data);
+                    }
                 }
             }
         } catch (IOException e) {
@@ -349,6 +383,14 @@ public class FileUtil {
                 try {
                     writer.flush();
                     writer.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+            if (userWriter != null) {
+                try {
+                    userWriter.flush();
+                    userWriter.close();
                 } catch (IOException e) {
                     e.printStackTrace();
                 }

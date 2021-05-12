@@ -43,7 +43,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 public class GitApi {
 
     static public void close() {
-     //   executorPool.shutdown();
+        //   executorPool.shutdown();
         GitApi.run = false;
         executorHttpPool.shutdown();
 //        try {
@@ -57,24 +57,27 @@ public class GitApi {
     static boolean run = true;
 
 
-   // static ExecutorService executorPool;
+    // static ExecutorService executorPool;
     static ExecutorService executorHttpPool;
 
     public static void addTask(Project project) {
         String url = project.getUrl();
         url = url.replaceAll("api.", "").replaceAll("repos/", "");
         project.setUrl(url);
+        new Api(project).run();
 //        HttpSendApi api = new HttpSendApi(project);
 //        api.run();
-       // executorHttpPool.execute(new HttpSendApi(project));
+        // executorHttpPool.execute(new HttpSendApi(project));
         // executorPool.execute(new HttpSendApi(project));
-        try {
-            projectBlockingDeque.put(project);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
+//        try {
+//            projectBlockingDeque.put(project);
+//        } catch (InterruptedException e) {
+//            e.printStackTrace();
+//        }
     }
-        static BlockingDeque<Project> projectBlockingDeque = new LinkedBlockingDeque<>(10);
+
+    static BlockingDeque<Project> projectBlockingDeque = new LinkedBlockingDeque<>(10);
+
     public static void process() {
         while (run) {
             try {
@@ -132,8 +135,10 @@ public class GitApi {
         public void run() {
             HttpRequest request;
             try {
+                //request.re
                 //         latch.addAndGet(-1);
-                 request = HttpRequest.get(project.getUrl());
+                request = HttpRequest.get(project.getUrl());
+
 //                request.connectTimeout(10*1000);
 //                request.readTimeout(10*1000);
                 if (request.code() == 200) {
@@ -148,7 +153,7 @@ public class GitApi {
                     int star = 0;
                     try {
                         star = Integer.parseInt(s[0]);
-                    }catch (Exception e){
+                    } catch (Exception e) {
                         LogUtil.info(" 空字符串：" + project.getId());
                     }
                     project.setStarNum(star);
@@ -163,8 +168,9 @@ public class GitApi {
                     System.out.printf("getStatusCode err:%d , project:%d, url:%s\n", request.code(), project.getId(), project.getUrl());
                 }
             } catch (Exception e) {
-                System.out.printf("err:%s , project:%d,url:%s\n", e.toString(), project.getId(),project.getUrl());
+                System.out.printf("err:%s , project:%d,url:%s\n", e.toString(), project.getId(), project.getUrl());
             } finally {
+
 
                 latch.addAndGet(-1);
             }
@@ -174,9 +180,10 @@ public class GitApi {
     }
 
 
-    static class Api implements Runnable{
+    static class Api implements Runnable {
         static final ThreadLocal<CloseableHttpAsyncClient> httpclient = new ThreadLocal<>();
-         void initApi(){
+
+        void initApi() {
             PublicSuffixMatcher publicSuffixMatcher = null;
             try {
                 publicSuffixMatcher = PublicSuffixMatcherLoader.load(
@@ -191,9 +198,9 @@ public class GitApi {
                     .register(CookieSpecs.STANDARD_STRICT, cookieSpecProvider)
                     .build();
             RequestConfig defaultRequestConfig = RequestConfig.custom()
-                    .setSocketTimeout(90000)
-                    .setConnectTimeout(90000)
-                    .setConnectionRequestTimeout(90000)
+                    .setSocketTimeout(30000)
+                    .setConnectTimeout(30000)
+                    .setConnectionRequestTimeout(30000)
                     .build();
             CloseableHttpAsyncClient build = HttpAsyncClientBuilder.create().
                     setDefaultCookieSpecRegistry(cookieSpecRegistry).
@@ -203,6 +210,7 @@ public class GitApi {
         }
 
         Project project;
+
         Api(Project project) {
             this.project = project;
 
@@ -210,13 +218,14 @@ public class GitApi {
 
         @Override
         public void run() {
-            if(httpclient.get() == null){
+            if (httpclient.get() == null) {
                 initApi();
             }
             HttpGet request = new HttpGet(project.getUrl());
             httpclient.get().execute(request, new SendApi(project));
         }
     }
+
     static class SendApi implements FutureCallback<HttpResponse> {
         static MySQL mySQL = new MySQL();
 
@@ -225,7 +234,7 @@ public class GitApi {
         SendApi(Project project) {
             this.project = project;
             latch.addAndGet(1);
-            System.out.printf("thread:%s \n", Thread.currentThread().getName());
+            //System.out.printf("thread:%s \n", Thread.currentThread().getName());
         }
 
         @Override
@@ -249,14 +258,18 @@ public class GitApi {
 
                     }
                     project.setStarNum(star);
-                    LogUtil.info(String.format("projectId:%d, star:%d", project.getId(), star));
+                    System.out.println(String.format("userid:%d ,projectId:%d, star:%d", project.getOwnerId(), project.getId(), star));
+                    //LogUtil.info();
                     ProjectsService.updateStar(project.getId(), project.getStarNum());
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
             } else {
-                ProjectsService.delete(project.getId());
+                if (httpResponse.getStatusLine().getStatusCode() == 404){
+                    ProjectsService.delete(project.getId());
+                }
                 System.out.printf("getStatusCode err:%d , project:%d\n", httpResponse.getStatusLine().getStatusCode(), project.getId());
+
             }
         }
 

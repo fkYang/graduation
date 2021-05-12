@@ -8,7 +8,9 @@ import graduation.entity.Project;
 import graduation.util.*;
 
 import java.io.IOException;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 
 import static graduation.util.FileUtil.IteratorTrend;
 import static graduation.util.FileUtil.readCsvAndDrawHITS;
@@ -27,10 +29,13 @@ public class Figure {
         IUserDao userDao = mySQL.getMapper(IUserDao.class);
         // 遍历projects
         int size = Parameter.batch, id = dto.getId(), times = 0;
-       // id = 59536;
+        // id = 59536;
         while (size == Parameter.batch) {
             List<GitHubUser> users = userDao.findUsersById(id, size);
             size = users.size();
+            if (size == 0) {
+                break;
+            }
             id = users.get(users.size() - 1).getId();
             Integer[] ids = new Integer[users.size()];
             for (int index = 0; index < users.size(); index++) {
@@ -42,7 +47,9 @@ public class Figure {
                 ids[index] = user.getId();
             }
             users = null;
-            iteratorProject(ids);
+            Map<Integer, Integer> userProjectMap = iteratorProject(ids);
+            dto.getUserProject().putAll(userProjectMap);
+
             dto.setId(id);
             LogUtil.info(String.format("times:%d ,user:%d ", times, id));
             times++;
@@ -51,12 +58,16 @@ public class Figure {
             }
         }
         FileUtil.writeObject(dto);
-        FileUtil.writeMap(dto.getUserFollower(), "follower.csv");
-        FileUtil.writeMap(dto.getProjectWatcher(), "watcher.csv");
-        FileUtil.writeMap(dto.getProjectRequest(), "request.csv");
+        FileUtil.writeMap(dto.getUserFollower(), "follower2.csv");
+        FileUtil.writeMap(dto.getProjectWatcher(), "watcher2.csv");
+        FileUtil.writeMap(dto.getProjectRequest(), "request2.csv");
         FileUtil.writeMap(dto.getProjectIssue(), "issue.csv");
+
+        FileUtil.writeMap(dto.getProjectIssue(), "userProject.csv");
     }
-    private static void iteratorProject(Integer[] ids) {
+
+    private static  Map<Integer, Integer> iteratorProject(Integer[] ids) {
+        Map<Integer, Integer> userProject = new LinkedHashMap<>();
         // findByOwnerIds
         IProjectDao projectDao = mySQL.getMapper(IProjectDao.class);
         List<Project> projects = projectDao.findByOwnerIds(ids);
@@ -65,6 +76,8 @@ public class Figure {
                 // 非原创
                 continue;
             }
+            userProject.put(project.getOwnerId(), userProject.getOrDefault(project.getOwnerId(), 0));
+
             List<Integer> watcher = TransUtil.string2List(project.getWatchers());
             Integer last = dto.getProjectWatcher().getOrDefault(watcher.size(), 0);
             dto.getProjectWatcher().put(watcher.size(), last + 1);
@@ -77,6 +90,7 @@ public class Figure {
             last = dto.getProjectRequest().getOrDefault(request.size(), 0);
             dto.getProjectRequest().put(request.size(), last + 1);
         }
+        return  userProject;
     }
 
     // 遍历数据，初始化数值，
@@ -84,7 +98,7 @@ public class Figure {
 
     // hits结束后，绘制图片用于分析
     public static void hitsFigure() {
-        //readCsvAndDrawHITS();
+        readCsvAndDrawHITS();
         try {
             IteratorTrend();
         } catch (IOException e) {

@@ -12,6 +12,7 @@ import graduation.util.Parameter;
 import java.util.List;
 import java.util.concurrent.ExecutorService;
 
+
 /**
  * 类描述
  *
@@ -21,6 +22,11 @@ import java.util.concurrent.ExecutorService;
 public class GitHubUserService {
     // 遍历user
     static MySQL mySQL  = new MySQL();
+    public static GitHubUser getUser(Integer id){
+        IUserDao userDao = mySQL.getMapper(IUserDao.class);
+        GitHubUser hubUser = userDao.findById(id);
+        return hubUser;
+    }
     public static  void temp(){
         try {
             Thread.sleep(10000);

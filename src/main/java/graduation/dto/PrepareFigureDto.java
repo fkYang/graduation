@@ -20,10 +20,13 @@ public class PrepareFigureDto implements Serializable {
     Map<Integer,Integer> projectWatcher;
     Map<Integer,Integer> projectIssue;
     Map<Integer,Integer> projectRequest;
+    Map<Integer,Integer> userProject;
     {
         userFollower = new LinkedHashMap<>();
         projectIssue = new LinkedHashMap<>();
         projectRequest = new LinkedHashMap<>();
         projectWatcher = new LinkedHashMap<>();
+        userProject = new LinkedHashMap<>();
     }
+
 }

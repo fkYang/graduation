@@ -37,7 +37,7 @@ public class CaculateHITS {
 
 
     public void Hits() {
-        for (int i = 0; i < 10; i++) {
+        for (int i = 0; i < Parameter.iteratorTimes; i++) {
             iteratorCaculate();
             LogUtil.info(String.format("hub %d, diff:%f", i, differentHubValue));
         }

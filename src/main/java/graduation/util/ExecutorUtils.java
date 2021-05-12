@@ -17,8 +17,8 @@ public class ExecutorUtils {
     private static final ExecutorService executorService ;//= Executors.newFixedThreadPool(15);
     private static final ExecutorService executorHttpService;
     static {
-        executorService = new ThreadPoolExecutor(20,
-                30, 600, TimeUnit.SECONDS,new ArrayBlockingQueue<>(500),new ThreadPoolExecutor.CallerRunsPolicy());
+        executorService = new ThreadPoolExecutor(40,
+                40, 600, TimeUnit.SECONDS,new ArrayBlockingQueue<>(5000),new ThreadPoolExecutor.CallerRunsPolicy());
         executorHttpService = new ThreadPoolExecutor(10,
                 10, 60, TimeUnit.SECONDS,new ArrayBlockingQueue<>(60),new ThreadPoolExecutor.CallerRunsPolicy());
     }

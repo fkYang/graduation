@@ -1,6 +1,5 @@
 package graduation.util;
 
-import org.jcp.xml.dsig.internal.dom.DOMUtils;
 
 /**
  * 类描述
@@ -10,7 +9,7 @@ import org.jcp.xml.dsig.internal.dom.DOMUtils;
  */
 public class Parameter {
     public static final int batch = 30;
-    public static final int star = 780000;
+    public static final int star = 35100;
     public static final int init = 0;
     public static int times = 0;
     public static double hubSum = 0;
@@ -31,7 +30,7 @@ public class Parameter {
     public static String HITSId = "hitsId";
     public static String HITSValue = "hitsValue";
 
-    public static int iteratorTimes = 10;
+    public static int iteratorTimes = 20;
 
     public static double minHitsThresholdValue = 0.01;
 
